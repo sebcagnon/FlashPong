@@ -21,19 +21,21 @@ package pong
 			speed = [0, 0];
 			var shape:Shape = new Shape();
 			shape.graphics.beginFill(0xFFFFFF, 1);
-			shape.graphics.drawCircle(0, 0, 40);
+			shape.graphics.drawCircle(0, 0, size);
 			addChild(shape);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
+			trace("finished contructor");
 		}
 		
 		internal function init (e:Event):void
 		{
-			x = (stage.stageWidth - size[0]) / 2;
-			y = (stage.stageHeight - size[1]) / 2;
+			x = (stage.stageWidth - size) / 2;
+			y = (stage.stageHeight - size) / 2;
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			intervalID = setInterval(updatePosition, 50);
 			addEventListener(Event.REMOVED_FROM_STAGE, deactivate);
+			trace("finished init");
 		}
 		
 		internal function deactivate(e:Event):void
