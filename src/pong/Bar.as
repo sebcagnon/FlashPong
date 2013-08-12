@@ -4,6 +4,7 @@ package pong
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.utils.*;
 	
 	/**
 	 * ...
@@ -11,49 +12,82 @@ package pong
 	 */
 	internal class Bar extends Sprite 
 	{
+		private static var MAXSPEED:Number = 10;
 		private var size:Array;
 		private var upKey:Number;
 		private var downKey:Number;
 		private var maxSpeed:Number;
-		private var speed:Number;
+		private var up:Number;
+		private var down:Number;
+		private var intervalID:uint;
 		
-		public function Bar(inSize:Array, up_key:Number, down_key:Number, max_speed:Number) 
+		public function Bar(inSize:Array, startPos:Array, up_key:Number, down_key:Number, max_speed:Number = 0) 
 		{
 			size = inSize;
 			upKey = up_key;
 			downKey = down_key;
-			maxSpeed = max_speed;
-			speed = 0;
+			maxSpeed = max_speed || Bar.MAXSPEED;
+			up = 0;
+			down = 0;
 			
 			var shape:Shape = new Shape();
 			shape.graphics.beginFill(0xFFFFFF, 1);
-			shape.graphics.drawRect(0, 0, size[0], size[1]);
+			shape.graphics.drawRect(startPos[0], startPos[1], size[0], size[1]);
 			addChild(shape);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
-		private function init(e:Event):void
+		internal function init(e:Event):void
 		{
+			y = (stage.stageHeight - size[1]) / 2;
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyboardListener);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyboardListener);
+			intervalID = setInterval(updatePosition, 50);
+			addEventListener(Event.REMOVED_FROM_STAGE, deactivate);
 		}
 		
-		public function keyboardListener(e:KeyboardEvent):void
+		internal function deactivate(e:Event):void
+		{
+			removeEventListener(Event.REMOVED_FROM_STAGE, deactivate);
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyboardListener);
+			stage.removeEventListener(KeyboardEvent.KEY_UP, keyboardListener);
+			clearInterval(intervalID);
+			intervalID = 0;
+			addEventListener(Event.ADDED_TO_STAGE, init);
+		}
+		
+		private function keyboardListener(e:KeyboardEvent):void
 		{
 			var sign:int = int((e.type == KeyboardEvent.KEY_UP)) - int((e.type == KeyboardEvent.KEY_DOWN));
-			trace(sign);
 			if (e.keyCode == upKey)
 			{
-				speed += sign * maxSpeed;
+				up = 1 - sign;
 			}
 			else if (e.keyCode == downKey)
 			{
-				speed -= sign * maxSpeed;
+				down = 1 - sign;
 			}
 		}
 		
+		private function updatePosition():void
+		{
+			var direction:int = down - up;
+			var newY:int = y + direction * maxSpeed;
+			if (newY < 0)
+			{
+				y = 0;
+			}
+			else if (newY + size[1] >= stage.stageHeight)
+			{
+				y = stage.stageHeight - size[1];
+			}
+			else
+			{
+				y = newY;
+			}
+		}
 	}
 
 }

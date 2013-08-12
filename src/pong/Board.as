@@ -37,6 +37,26 @@ package pong
 			
 			addChild(drawer);
 		}
+		
+		public function getPosition(side:String)
+		{
+			if (!stage)
+			{
+				throw(Error("Board needs to be added on stage first"));
+			}
+			if (side.toLowerCase() == "left")
+			{
+				return [0, 0];
+			}
+			else if (side.toLowerCase() == "right")
+			{
+				return [stage.stageWidth - gutterSize, 0];
+			}
+			else
+			{
+				throw(Error("There are only 2 possible positions: 'left' or 'right'"));
+			}
+		}
 	}
 
 }
