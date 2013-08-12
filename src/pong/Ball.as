@@ -33,7 +33,7 @@ package pong
 			x = (stage.stageWidth - size) / 2;
 			y = (stage.stageHeight - size) / 2;
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			intervalID = setInterval(updatePosition, 50);
+			intervalID = setInterval(updatePosition, 40);
 			addEventListener(Event.REMOVED_FROM_STAGE, deactivate);
 			trace("finished init");
 		}
@@ -60,28 +60,28 @@ package pong
 		{
 			var newX:int = x + speed[0];
 			var newY:int = y + speed[1];
-			if (newX < 0)
+			if (newX < size)
 			{
-				x = 0;
+				x = size;
 				speed[0] *= -1;
 			}
-			else if (newX >= stage.stageWidth)
+			else if (newX >= stage.stageWidth-size)
 			{
-				x = stage.stageWidth - 1;
+				x = stage.stageWidth - size - 1;
 				speed[0] *= -1;
 			}
 			else
 			{
 				x = newX;
 			}
-			if (newY < 0)
+			if (newY < size)
 			{
-				y = 0;
+				y = size;
 				speed[1] *= -1;
 			}
-			else if (newY >= stage.stageHeight)
+			else if (newY >= stage.stageHeight-size)
 			{
-				y = stage.stageWidth - 1;
+				y = stage.stageHeight - size - 1;
 				speed[1] *= -1;
 			}
 			else

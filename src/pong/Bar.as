@@ -12,7 +12,7 @@ package pong
 	 */
 	internal class Bar extends Sprite 
 	{
-		private static var MAXSPEED:Number = 10;
+		private static var MAXSPEED:Number = 8;
 		private var size:Array;
 		private var upKey:Number;
 		private var downKey:Number;
@@ -44,7 +44,7 @@ package pong
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyboardListener);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyboardListener);
-			intervalID = setInterval(updatePosition, 50);
+			intervalID = setInterval(updatePosition, 40);
 			addEventListener(Event.REMOVED_FROM_STAGE, deactivate);
 		}
 		
