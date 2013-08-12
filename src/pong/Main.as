@@ -28,11 +28,11 @@ package pong
 			board.draw();
 			var barLeft:Bar = new Bar(barSize, board.getPosition("Left"), 38, 40);
 			var barRight:Bar = new Bar(barSize, board.getPosition("right"), 87, 83);
-			//var ball:Ball = new Ball(40);
+			var ball:Ball = new Ball(40);
 			addChild(barLeft);
 			addChild(barRight);
-			//addChild(ball);
-			//ball.setSpeed([7, -5]);
+			addChild(ball);
+			ball.setSpeed([7, -5]);
 		}
 	}
 	
