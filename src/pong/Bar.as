@@ -13,7 +13,7 @@ package pong
 	internal class Bar extends Sprite 
 	{
 		private static var MAXSPEED:Number = 8;
-		private var size:Array;
+		internal var size:Array;
 		private var upKey:Number;
 		private var downKey:Number;
 		private var maxSpeed:Number;
@@ -21,7 +21,7 @@ package pong
 		private var down:Number;
 		private var intervalID:uint;
 		
-		public function Bar(inSize:Array, startPos:Array, up_key:Number, down_key:Number, max_speed:Number = 0) 
+		public function Bar(inSize:Array, startPos:Array, up_key:Number, down_key:Number, sideName:String, max_speed:Number = 0) 
 		{
 			size = inSize;
 			upKey = up_key;
@@ -29,10 +29,14 @@ package pong
 			maxSpeed = max_speed || Bar.MAXSPEED;
 			up = 0;
 			down = 0;
+			name = sideName;
+			
+			x = startPos[0];
+			y = startPos[1];
 			
 			var shape:Shape = new Shape();
 			shape.graphics.beginFill(0xFFFFFF, 1);
-			shape.graphics.drawRect(startPos[0], startPos[1], size[0], size[1]);
+			shape.graphics.drawRect(0, 0, size[0], size[1]);
 			addChild(shape);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);

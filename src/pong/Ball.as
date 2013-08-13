@@ -11,6 +11,7 @@ package pong
 	 */
 	internal class Ball extends Sprite 
 	{
+		static private var SIDES:Array = ["Left", "Right"];
 		private var size:int;
 		private var speed:Array;
 		private var intervalID:uint;
@@ -20,12 +21,11 @@ package pong
 			size = inSize;
 			speed = [0, 0];
 			var shape:Shape = new Shape();
-			shape.graphics.beginFill(0xFFFFFF, 1);
+			shape.graphics.beginFill(0xFF0000, 1);
 			shape.graphics.drawCircle(0, 0, size);
 			addChild(shape);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
-			trace("finished contructor");
 		}
 		
 		internal function init (e:Event):void
@@ -35,7 +35,6 @@ package pong
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			intervalID = setInterval(updatePosition, 40);
 			addEventListener(Event.REMOVED_FROM_STAGE, deactivate);
-			trace("finished init");
 		}
 		
 		internal function deactivate(e:Event):void
@@ -87,6 +86,31 @@ package pong
 			else
 			{
 				y = newY;
+			}
+			for each (var side:String in SIDES)
+			{
+				if (hitTestObject(parent.getChildByName(side)))
+				{
+					checkCollision(side);
+				}
+			}
+		}
+		
+		private function checkCollision(side:String)
+		{
+			var bar:Bar = parent.getChildByName(side) as Bar;
+			var center:Array = [x + size / 2, y + size / 2];
+			if (center[1] >= bar.y && center[1] < bar.y + bar.size[1]) // normal bounce
+			{
+				speed[0] *= -1;
+				if (bar.x - bar.size[0] < 0)
+				{
+					x = bar.x + bar.size[0] + size;
+				}
+				else
+				{
+					x = bar.x - size;
+				}
 			}
 		}
 		

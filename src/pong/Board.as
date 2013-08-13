@@ -38,7 +38,7 @@ package pong
 			addChild(drawer);
 		}
 		
-		public function getPosition(side:String)
+		public function getPosition(side:String):Array
 		{
 			if (!stage)
 			{

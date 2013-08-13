@@ -26,8 +26,8 @@ package pong
 			var board:Board = new Board(10, barSize[0]);
 			addChild(board);
 			board.draw();
-			var barLeft:Bar = new Bar(barSize, board.getPosition("Left"), 38, 40);
-			var barRight:Bar = new Bar(barSize, board.getPosition("right"), 87, 83);
+			var barLeft:Bar = new Bar(barSize, board.getPosition("Left"), 38, 40, "Left");
+			var barRight:Bar = new Bar(barSize, board.getPosition("Right"), 87, 83, "Right");
 			var ball:Ball = new Ball(stage.stageWidth / 40);
 			addChild(barLeft);
 			addChild(barRight);
