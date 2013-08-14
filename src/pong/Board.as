@@ -3,6 +3,7 @@ package pong
 	import adobe.utils.CustomActions;
 	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.text.TextField;
 	
 	/**
 	 * ...
@@ -12,11 +13,14 @@ package pong
 	{
 		private var midBarWidth:int;
 		private var gutterSize:int;
+		private var score:Array;
+		private var scoreDisplay:Array;
 		
 		public function Board(middleBarWidth:int, newGutterSize:int) 
 		{
 			midBarWidth = middleBarWidth;
 			gutterSize = newGutterSize;
+			score = [0, 0];
 		}
 		
 		public function draw():void
@@ -35,6 +39,20 @@ package pong
 			drawer.graphics.beginFill(0xFFFFFF, 0.8);
 			drawer.graphics.drawRect(stage.stageWidth - gutterSize-3, 0, 2, stage.stageHeight);
 			
+			// Score Display
+			scoreDisplay = [new TextField(), new TextField()];
+			for each (var text:TextField in scoreDisplay)
+			{
+				text.textColor = 0xFFFFFF;
+				text.text = '0';
+				text.scaleX = text.scaleY = 4;
+				text.y = stage.stageHeight / 15;
+			}
+			scoreDisplay[0].x = stage.stageWidth / 4;
+			scoreDisplay[1].x = 3 * stage.stageWidth / 4;
+			
+			addChild(scoreDisplay[0]);
+			addChild(scoreDisplay[1]);
 			addChild(drawer);
 		}
 		
@@ -56,6 +74,11 @@ package pong
 			{
 				throw(Error("There are only 2 possible positions: 'left' or 'right'"));
 			}
+		}
+		
+		internal function addScore(player:int):void
+		{
+			score[player] += 1;
 		}
 	}
 

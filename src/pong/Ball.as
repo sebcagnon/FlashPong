@@ -30,8 +30,8 @@ package pong
 		
 		internal function init (e:Event):void
 		{
-			x = (stage.stageWidth - size) / 2;
-			y = (stage.stageHeight - size) / 2;
+			x = (stage.stageWidth) / 2;
+			y = (stage.stageHeight) / 2;
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			intervalID = setInterval(updatePosition, 40);
 			addEventListener(Event.REMOVED_FROM_STAGE, deactivate);
@@ -59,20 +59,22 @@ package pong
 		{
 			var newX:int = x + speed[0];
 			var newY:int = y + speed[1];
+			// left and right --> out!
 			if (newX < size)
 			{
-				x = size;
-				speed[0] *= -1;
+				dispatchEvent(new PongEvent(PongEvent.BALL_OUT, 'left'));
+				return;
 			}
 			else if (newX >= stage.stageWidth-size)
 			{
-				x = stage.stageWidth - size - 1;
-				speed[0] *= -1;
+				dispatchEvent(new PongEvent(PongEvent.BALL_OUT, 'right'));
+				return;
 			}
 			else
 			{
 				x = newX;
 			}
+			// up and down --> bounce!
 			if (newY < size)
 			{
 				y = size;
@@ -96,11 +98,11 @@ package pong
 			}
 		}
 		
-		private function checkCollision(side:String)
+		private function checkCollision(side:String):void
 		{
 			var bar:Bar = parent.getChildByName(side) as Bar;
-			var center:Array = [x + size / 2, y + size / 2];
-			if (center[1] >= bar.y && center[1] < bar.y + bar.size[1]) // normal bounce
+			// normal bounce
+			if (y >= bar.y && y < bar.y + bar.size[1]) 
 			{
 				speed[0] *= -1;
 				if (bar.x - bar.size[0] < 0)
@@ -112,6 +114,19 @@ package pong
 					x = bar.x - size;
 				}
 			}
+			else // bounce on horizontal edge
+			{
+				speed[1] *= -1;
+				if (y < bar.y) // above the bar
+				{
+					y = bar.y - size;
+				}
+				else if (y >= bar.y + bar.size[1])
+				{
+					y = bar.y + bar.size[1] + size;
+				}
+			}
+			
 		}
 		
 	}
