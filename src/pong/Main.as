@@ -34,7 +34,7 @@ package pong
 			addChild(barRight);
 			addChild(ball);
 			ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
-			ball.setSpeed([5, -6]);
+			ball.setSpeed([randomSpeed(5, 10), randomSpeed(5, 10)]);
 		}
 		
 		internal function ballOutListener(e:PongEvent):void
