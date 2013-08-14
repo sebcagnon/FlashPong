@@ -21,6 +21,7 @@ package pong
 			midBarWidth = middleBarWidth;
 			gutterSize = newGutterSize;
 			score = [0, 0];
+			name = "Board";
 		}
 		
 		public function draw():void
@@ -79,6 +80,7 @@ package pong
 		internal function addScore(player:int):void
 		{
 			score[player] += 1;
+			(scoreDisplay[player] as TextField).text = score[player];
 		}
 	}
 

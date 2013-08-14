@@ -40,11 +40,15 @@ package pong
 		internal function ballOutListener(e:PongEvent):void
 		{
 			removeChild(ball);
-			var newSpeed:Array = [randomSpeed(0, 10), randomSpeed(0, 10)]
+			var newSpeed:Array = [randomSpeed(5, 10), randomSpeed(5, 10)]
 			if ((e.param as String) == 'right')
 			{
 				newSpeed[0] *= -1;
-				
+				(getChildByName("Board") as Board).addScore(0);
+			}
+			else
+			{
+				(getChildByName("Board") as Board).addScore(1);
 			}
 			addChild(ball);
 			ball.setSpeed(newSpeed);
