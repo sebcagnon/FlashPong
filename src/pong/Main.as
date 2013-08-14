@@ -34,13 +34,13 @@ package pong
 			addChild(barRight);
 			addChild(ball);
 			ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
-			ball.setSpeed([randomSpeed(5, 10), randomSpeed(5, 10)]);
+			ball.setSpeed([randomSpeed(5, 15), randomSpeed(5, 15)]);
 		}
 		
 		internal function ballOutListener(e:PongEvent):void
 		{
 			removeChild(ball);
-			var newSpeed:Array = [randomSpeed(5, 10), randomSpeed(5, 10)]
+			var newSpeed:Array = [randomSpeed(5, 15), randomSpeed(5, 15)]
 			if ((e.param as String) == 'right')
 			{
 				newSpeed[0] *= -1;

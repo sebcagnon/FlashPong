@@ -104,7 +104,7 @@ package pong
 			// normal bounce
 			if (y >= bar.y && y < bar.y + bar.size[1]) 
 			{
-				speed[0] *= -1;
+				speed[0] *= -1.15;
 				if (bar.x - bar.size[0] < 0)
 				{
 					x = bar.x + bar.size[0] + size;
@@ -116,16 +116,26 @@ package pong
 			}
 			else // bounce on horizontal edge
 			{
-				speed[1] *= -1;
+				//speed[1] *= -1;
 				if (y < bar.y) // above the bar
 				{
 					y = bar.y - size;
+					if (speed[1] > 0)
+					{
+						speed[1] *= -1;
+					}
+					
 				}
 				else if (y >= bar.y + bar.size[1])
 				{
 					y = bar.y + bar.size[1] + size;
+					if (speed[1] < 0)
+					{
+						speed[1] *= -1;
+					}
 				}
 			}
+			speed[1] += bar.getSpeed() / 2;
 			
 		}
 		

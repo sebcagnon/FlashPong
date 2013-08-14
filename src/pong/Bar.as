@@ -20,6 +20,7 @@ package pong
 		private var up:Number;
 		private var down:Number;
 		private var intervalID:uint;
+		private var direction:int;
 		
 		public function Bar(inSize:Array, startPos:Array, up_key:Number, down_key:Number, sideName:String, max_speed:Number = 0) 
 		{
@@ -62,6 +63,11 @@ package pong
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
+		internal function getSpeed():int 
+		{
+			return direction*maxSpeed;
+		}
+		
 		private function keyboardListener(e:KeyboardEvent):void
 		{
 			var sign:int = int((e.type == KeyboardEvent.KEY_UP)) - int((e.type == KeyboardEvent.KEY_DOWN));
@@ -77,7 +83,7 @@ package pong
 		
 		private function updatePosition():void
 		{
-			var direction:int = down - up;
+			direction = down - up;
 			var newY:int = y + direction * maxSpeed;
 			if (newY < 0)
 			{
