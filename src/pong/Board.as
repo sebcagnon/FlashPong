@@ -27,7 +27,7 @@ package pong
 		public function draw():void
 		{
 			var drawer:Shape = new Shape();
-			// Background
+			//Background
 			drawer.graphics.beginFill(0x000000, 1);
 			drawer.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 			// Middle bar
