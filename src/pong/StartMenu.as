@@ -11,9 +11,13 @@ package pong
 	 */
 	internal class StartMenu extends Sprite 
 	{
+		internal var button:SimpleButton;
+		static internal var NAME:String = "STARTMENU";
+		
 		public function StartMenu() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
+			name = NAME;
 		}
 		
 		private function init(e:Event):void
@@ -33,8 +37,8 @@ package pong
 			textDown.scaleX = 3.2;
 			textDown.scaleY = 3.2;
 			textDown.autoSize = TextFieldAutoSize.LEFT;
-			var button:SimpleButton = new SimpleButton(textUp, textDown, textDown, textUp);
-			button.visible = true;
+			button = new SimpleButton(textUp, textDown, textDown, textUp);
+			button.name = NAME;
 			x = (stage.stageWidth - textUp.width) / 2;
 			y = (stage.stageHeight - textUp.height) / 2;
 			addChild(button);

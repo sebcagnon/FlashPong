@@ -1,8 +1,10 @@
 package pong
 {
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
 	import flash.utils.setTimeout;
 	
 	/**
@@ -23,18 +25,9 @@ package pong
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
-			var barSize:Array = [stage.stageWidth / 20, stage.stageHeight / 4];
-			var board:Board = new Board(10, barSize[0]);
-			addChild(board);
-			board.draw();
-			var barLeft:Bar = new Bar(barSize, board.getPosition("Left"), 87, 83, "Left"); // w and s keys
-			var barRight:Bar = new Bar(barSize, board.getPosition("Right"), 38, 40, "Right"); // arrow keys
-			ball = new Ball(stage.stageWidth / 40);
-			addChild(barLeft);
-			addChild(barRight);
-			addChild(ball);
-			ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
-			ball.setSpeed([randomSpeed(5, 15), randomSpeed(5, 15)]);
+			var menu:StartMenu = new StartMenu();
+			addChild(menu);
+			addEventListener(MouseEvent.CLICK, startGame);
 		}
 		
 		internal function ballOutListener(e:PongEvent):void
@@ -52,6 +45,26 @@ package pong
 			}
 			addChild(ball);
 			ball.setSpeed(newSpeed);
+		}
+		
+		private function startGame(e:MouseEvent):void
+		{
+			if ((e.target as DisplayObject).name == StartMenu.NAME)
+			{
+				removeEventListener(MouseEvent.CLICK, startGame);
+				var barSize:Array = [stage.stageWidth / 20, stage.stageHeight / 4];
+				var board:Board = new Board(10, barSize[0]);
+				addChild(board);
+				board.draw();
+				var barLeft:Bar = new Bar(barSize, board.getPosition("Left"), 87, 83, "Left"); // w and s keys
+				var barRight:Bar = new Bar(barSize, board.getPosition("Right"), 38, 40, "Right"); // arrow keys
+				ball = new Ball(stage.stageWidth / 40);
+				addChild(barLeft);
+				addChild(barRight);
+				addChild(ball);
+				ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
+				ball.setSpeed([randomSpeed(5, 15), randomSpeed(5, 15)]);
+			}
 		}
 		
 		private function randomSpeed(min:Number, max:Number):Number
