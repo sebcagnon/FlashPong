@@ -3,7 +3,7 @@ package pong
 	import adobe.utils.CustomActions;
 	import flash.display.Shape;
 	import flash.display.Sprite;
-	import flash.text.TextField;
+	import flash.text.*;
 	
 	/**
 	 * ...
@@ -51,6 +51,7 @@ package pong
 				text.text = '0';
 				text.scaleX = text.scaleY = 4;
 				text.y = stage.stageHeight / 15;
+				text.autoSize = TextFieldAutoSize.LEFT;
 			}
 			scoreDisplay[0].x = stage.stageWidth / 4;
 			scoreDisplay[1].x = 3 * stage.stageWidth / 4;

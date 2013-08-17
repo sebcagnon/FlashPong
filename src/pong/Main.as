@@ -39,7 +39,7 @@ package pong
 				newSpeed[0] *= -1;
 				(getChildByName("Board") as Board).addScore(0);
 			}
-			else
+			else if ((e.param as String) == 'left')
 			{
 				(getChildByName("Board") as Board).addScore(1);
 			}
@@ -63,9 +63,11 @@ package pong
 				addChild(barRight);
 				addChild(ball);
 				ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
-				ball.setSpeed([randomSpeed(5, 15), randomSpeed(5, 15)]);
+				setTimeout(function() { ballOutListener(new PongEvent(PongEvent.BALL_OUT, ''));}, 1000);
 			}
 		}
+		
+		
 		
 		private function randomSpeed(min:Number, max:Number):Number
 		{
