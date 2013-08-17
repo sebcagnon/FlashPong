@@ -49,7 +49,7 @@ package pong
 		
 		private function startGame(e:MouseEvent):void
 		{
-			if ((e.target as DisplayObject).name == StartMenu.NAME)
+			if ((e.target as DisplayObject).name == 'START')
 			{
 				removeEventListener(MouseEvent.CLICK, startGame);
 				var barSize:Array = [stage.stageWidth / 20, stage.stageHeight / 4];
@@ -63,7 +63,7 @@ package pong
 				addChild(barRight);
 				addChild(ball);
 				ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
-				setTimeout(function() { ballOutListener(new PongEvent(PongEvent.BALL_OUT, ''));}, 1000);
+				setTimeout(function():void { ballOutListener(new PongEvent(PongEvent.BALL_OUT, ''));}, 1000);
 			}
 		}
 		
