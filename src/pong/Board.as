@@ -27,6 +27,9 @@ package pong
 		public function draw():void
 		{
 			var drawer:Shape = new Shape();
+			// Background
+			drawer.graphics.beginFill(0x000000, 1);
+			drawer.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 			// Middle bar
 			drawer.graphics.lineStyle(1);
 			drawer.graphics.beginFill(0xFFFFFF, 1);
@@ -52,9 +55,9 @@ package pong
 			scoreDisplay[0].x = stage.stageWidth / 4;
 			scoreDisplay[1].x = 3 * stage.stageWidth / 4;
 			
+			addChild(drawer);
 			addChild(scoreDisplay[0]);
 			addChild(scoreDisplay[1]);
-			addChild(drawer);
 		}
 		
 		public function getPosition(side:String):Array
