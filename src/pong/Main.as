@@ -33,7 +33,7 @@ package pong
 		internal function ballOutListener(e:PongEvent):void
 		{
 			removeChild(ball);
-			var newSpeed:Array = [randomSpeed(5, 15), randomSpeed(5, 15)]
+			var newSpeed:Array = [randomSpeed(8, 15), randomSpeed(5, 15)]
 			if ((e.param as String) == 'right')
 			{
 				newSpeed[0] *= -1;
