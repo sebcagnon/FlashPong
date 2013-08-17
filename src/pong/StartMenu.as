@@ -12,6 +12,7 @@ package pong
 	internal class StartMenu extends Sprite 
 	{
 		private var space:int;
+		private var pos:Array;
 		
 		public function StartMenu() 
 		{
@@ -22,14 +23,15 @@ package pong
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			space = stage.stageHeight / 50;
-			var pos:Array = [stage.stageWidth / 2, stage.stageHeight / 2];
-			pos[1] = createButton('CREATE', pos) - space;
-			pos[1] = createButton('CREATE', pos) - space;
-			pos[1] = createButton('START', pos) - space;
+			pos = [stage.stageWidth / 2, stage.stageHeight / 2];
 		}
 		
-		private function createButton (buttonText:String, position:Array):int 
+		internal function createButton (buttonText:String):void 
 		{
+			if (!stage)
+			{
+				throw(Error("Menu must first be added to stage"));
+			}
 			var textUp:TextField = new TextField();
 			textUp.backgroundColor = 0x000000;
 			textUp.textColor = 0xFFFFFF;
@@ -46,10 +48,10 @@ package pong
 			textDown.autoSize = TextFieldAutoSize.LEFT;
 			var button:SimpleButton = new SimpleButton(textUp, textDown, textDown, textUp);
 			button.name = buttonText;
-			button.x = position[0] - textUp.width / 2;
-			button.y = position[1] - textUp.height / 2;
+			button.x = pos[0] - textUp.width / 2;
+			button.y = pos[1] - textUp.height / 2;
 			addChild(button);
-			return button.y;
+			pos[1] = button.y - space;
 		}
 		
 	}

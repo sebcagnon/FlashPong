@@ -27,6 +27,9 @@ package pong
 			// entry point
 			var menu:StartMenu = new StartMenu();
 			addChild(menu);
+			menu.createButton('JOIN PARTY');
+			menu.createButton('CREATE PARTY');
+			menu.createButton('START');
 			addEventListener(MouseEvent.CLICK, startGame);
 		}
 		
