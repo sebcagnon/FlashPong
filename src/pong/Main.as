@@ -14,6 +14,7 @@ package pong
 	public class Main extends Sprite 
 	{
 		private var ball:Ball;
+		private var connection:TCPConnection;
 		
 		public function Main():void 
 		{
@@ -30,7 +31,7 @@ package pong
 			menu.createButton('JOIN PARTY');
 			menu.createButton('CREATE PARTY');
 			menu.createButton('START');
-			addEventListener(MouseEvent.CLICK, startGame);
+			addEventListener(MouseEvent.CLICK, clickListener);
 		}
 		
 		internal function ballOutListener(e:PongEvent):void
@@ -50,27 +51,34 @@ package pong
 			ball.setSpeed(newSpeed);
 		}
 		
-		private function startGame(e:MouseEvent):void
+		private function startGame():void
 		{
-			if ((e.target as DisplayObject).name == 'START')
-			{
-				removeEventListener(MouseEvent.CLICK, startGame);
-				var barSize:Array = [stage.stageWidth / 20, stage.stageHeight / 4];
-				var board:Board = new Board(10, barSize[0]);
-				addChild(board);
-				board.draw();
-				var barLeft:Bar = new Bar(barSize, board.getPosition("Left"), 87, 83, "Left"); // w and s keys
-				var barRight:Bar = new Bar(barSize, board.getPosition("Right"), 38, 40, "Right"); // arrow keys
-				ball = new Ball(stage.stageWidth / 40);
-				addChild(barLeft);
-				addChild(barRight);
-				addChild(ball);
-				ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
-				setTimeout(function():void { ballOutListener(new PongEvent(PongEvent.BALL_OUT, ''));}, 1000);
-			}
+			var barSize:Array = [stage.stageWidth / 20, stage.stageHeight / 4];
+			var board:Board = new Board(10, barSize[0]);
+			addChild(board);
+			board.draw();
+			var barLeft:Bar = new Bar(barSize, board.getPosition("Left"), 87, 83, "Left"); // w and s keys
+			var barRight:Bar = new Bar(barSize, board.getPosition("Right"), 38, 40, "Right"); // arrow keys
+			ball = new Ball(stage.stageWidth / 40);
+			addChild(barLeft);
+			addChild(barRight);
+			addChild(ball);
+			ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
+			setTimeout(function():void { ballOutListener(new PongEvent(PongEvent.BALL_OUT, ''));}, 1000);
 		}
 		
-		
+		private function clickListener(e:MouseEvent):void
+		{
+			removeEventListener(MouseEvent.CLICK, clickListener);
+			if ((e.target as DisplayObject).name == 'START')
+			{
+				startGame();
+			}
+			else if ((e.target as DisplayObject).name == 'CREATE PARTY')
+			{
+				connection = new TCPConnection(TCPConnection.SERVER);
+			}
+		}
 		
 		private function randomSpeed(min:Number, max:Number):Number
 		{
