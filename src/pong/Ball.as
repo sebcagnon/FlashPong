@@ -24,7 +24,7 @@ package pong
 			shape.graphics.beginFill(0xFF0000, 1);
 			shape.graphics.drawCircle(0, 0, size);
 			addChild(shape);
-			
+			name = 'ball';
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
@@ -43,6 +43,7 @@ package pong
 			clearInterval(intervalID);
 			intervalID = 0;
 			addEventListener(Event.ADDED_TO_STAGE, init);
+			addEventListener('BALL_UPDATE', updateFromServer);
 		}
 		
 		internal function setSpeed(newSpeed:Array):void
@@ -53,6 +54,15 @@ package pong
 		internal function getSpeed():Array
 		{
 			return speed;
+		}
+		
+		internal function updateFromServer(e:PongEvent):void 
+		{
+			var pos:Array = (e.param as Array)
+			var newX:Number = Number(pos[0]);
+			var newY:Number = Number(pos[1]);
+			x = newX * stage.stageWidth;
+			y = newY * stage.stageHeight;
 		}
 		
 		private function updatePosition():void

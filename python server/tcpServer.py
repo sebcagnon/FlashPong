@@ -24,24 +24,48 @@ class Party:
                 response += str(object) + ':'+ str(self.objects[object]).strip('[]') + '\t'
         return response
 
+class User:
+    def __init__(self, ID):
+      self.id = ID
+      self.ballPos = [0.5, 0.5]
+    
+    def getID(self):
+      return self.id
+    
+    def getBallPos(self):
+      self.ballPos[0] = (self.ballPos[0] + 0.05) % 1
+      return 'ball:' + ','.join(map(str, self.ballPos))
     
 def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((TCP_IP, TCP_PORT))
     s.listen(1)
     s.settimeout(1)
+    users = []
     print "Socket ready, waiting for connections"
     try:
         while 1:
             try:
+                data = None
+                
                 conn, addr = s.accept()
-                print 'Connection address:', addr
-                data = conn.recv(BUFFER_SIZE)
-                if not data: break
+                while not data:
+                  print 'Connection address:', addr
+                  try:
+                    data = conn.recv(BUFFER_SIZE)
+                  except:
+                    print "no data"
+                    data = None
+                  if not data: continue
                 print "received data:", data
-                if data.startswith('create'):
-                   party = Party(1)
-                   conn.send(party.getPositions(['Left', 'Right', 'Ball']))
+                if data.startswith('NEW_USER'):
+                  users.append(User(len(users)))
+                  conn.send('ID:'+str(users[-1].getID()))
+                if data.startswith('update'):
+                  lData = data.split(':')
+                  id = int(lData[-1])
+                  print "sending pos"
+                  conn.send(users[id].getBallPos())
                 conn.close()
             except socket.timeout, e:
                 pass

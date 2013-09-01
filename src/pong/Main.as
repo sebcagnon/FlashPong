@@ -28,9 +28,8 @@ package pong
 			// entry point
 			var menu:StartMenu = new StartMenu();
 			addChild(menu);
-			menu.createButton('JOIN PARTY');
-			menu.createButton('CREATE PARTY');
-			menu.createButton('START');
+			menu.createButton('ONLINE GAME');
+			menu.createButton('START LOCAL');
 			addEventListener(MouseEvent.CLICK, clickListener);
 		}
 		
@@ -51,7 +50,7 @@ package pong
 			ball.setSpeed(newSpeed);
 		}
 		
-		private function startGame():void
+		private function startGame(isLocal:Boolean = true):void
 		{
 			var barSize:Array = [stage.stageWidth / 20, stage.stageHeight / 4];
 			var board:Board = new Board(10, barSize[0]);
@@ -63,8 +62,15 @@ package pong
 			addChild(barLeft);
 			addChild(barRight);
 			addChild(ball);
-			ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
-			setTimeout(function():void { ballOutListener(new PongEvent(PongEvent.BALL_OUT, ''));}, 1000);
+			if (isLocal)
+			{
+				ball.addEventListener(PongEvent.BALL_OUT, ballOutListener);
+				setTimeout(function():void { ballOutListener(new PongEvent(PongEvent.BALL_OUT, ''));}, 1000);
+			}
+			else 
+			{
+				connection.setBall((getChildByName('ball') as Ball));
+			}
 		}
 		
 		private function clickListener(e:MouseEvent):void
@@ -74,9 +80,10 @@ package pong
 			{
 				startGame();
 			}
-			else if ((e.target as DisplayObject).name == 'CREATE PARTY')
+			else if ((e.target as DisplayObject).name == 'ONLINE GAME')
 			{
-				connection = new TCPConnection(TCPConnection.SERVER);
+				connection = new TCPConnection();
+				startGame(false);
 			}
 		}
 		
