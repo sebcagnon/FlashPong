@@ -6,6 +6,7 @@ package pong
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.utils.setTimeout;
+	import com.adobe.serialization.json.JSON;
 	
 	/**
 	 * ...
@@ -76,7 +77,7 @@ package pong
 		private function clickListener(e:MouseEvent):void
 		{
 			removeEventListener(MouseEvent.CLICK, clickListener);
-			if ((e.target as DisplayObject).name == 'START')
+			if ((e.target as DisplayObject).name == 'START LOCAL')
 			{
 				startGame();
 			}
